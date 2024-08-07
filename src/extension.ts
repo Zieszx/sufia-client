@@ -139,31 +139,14 @@ async function pushCodeToServer(content: string) {
     const transactionCode = path.basename(path.dirname(filePath));
     const groupCode = path.basename(path.dirname(path.dirname(filePath)));
 
-    const versionPush = await vscode.window.showInputBox({
-        prompt: 'Enter the version to push',
-        placeHolder: 'Edit, if no new version is required, put "none"'
-    });
-
-    if(versionPush === "none"){
-        const terminal = vscode.window.terminals.find(t => t.name === 'Sufia Terminal');
-        if (terminal) {
-            terminal.sendText(`sufia push -g ${groupCode} -c ${transactionCode}`);
-            terminal.show();
-        } else {
-            const newTerminal = vscode.window.createTerminal('Sufia Terminal');
-            newTerminal.sendText(`sufia push -g ${groupCode} -c ${transactionCode}`);
-            newTerminal.show();
-        }
-    }else{
-        const terminal = vscode.window.terminals.find(t => t.name === 'Sufia Terminal');
-        if (terminal) {
-            terminal.sendText(`sufia push -g ${groupCode} -c ${transactionCode} -v ${versionPush}`);
-            terminal.show();
-        } else {
-            const newTerminal = vscode.window.createTerminal('Sufia Terminal');
-            newTerminal.sendText(`sufia push -g ${groupCode} -c ${transactionCode} -v ${versionPush}`);
-            newTerminal.show();
-        }
+    const terminal = vscode.window.terminals.find(t => t.name === 'Sufia Terminal');
+    if (terminal) {
+        terminal.sendText(`sufia push -g ${groupCode} -c ${transactionCode}`);
+        terminal.show();
+    } else {
+        const newTerminal = vscode.window.createTerminal('Sufia Terminal');
+        newTerminal.sendText(`sufia push -g ${groupCode} -c ${transactionCode}`);
+        newTerminal.show();
     }
     vscode.window.showInformationMessage('Code pushed to server successfully');
 

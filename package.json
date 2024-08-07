@@ -3,7 +3,7 @@
     "displayName": "Sufia Client",
     "description": "Client in sufia for pull, push, and connect",
     "publisher": "WebgeazSdnBhd",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "engines": {
         "vscode": "^1.92.0"
     },

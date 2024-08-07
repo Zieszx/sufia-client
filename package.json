@@ -1,0 +1,121 @@
+{
+    "name": "sufia-client",
+    "displayName": "Sufia Client",
+    "description": "Client in sufia for pull, push, and connect",
+    "version": "1.0.0",
+    "engines": {
+        "vscode": "^1.92.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [
+        "onCommand:sufia.pushToServer",
+        "onCommand:sufia.setUser",
+        "onCommand:sufia.pullAll",
+        "onCommand:sufia.pushCodetoSufia",
+        "onCommand:sufia.pullCodefromSufia",
+        "onCommand:sufia.pullExistingCodefromSufia"
+    ],
+    "main": "./dist/extension.js",
+    "contributes": {
+        "commands": [
+            {
+                "command": "sufia.pushToServer",
+                "title": "SUFIA: Push to Server (Git Push)"
+            },
+            {
+                "command": "sufia.setUser",
+                "title": "SUFIA: Set User"
+            },
+            {
+                "command": "sufia.pullAll",
+                "title": "SUFIA: Pull All"
+            },
+            {
+                "command": "sufia.pushCodetoSufia",
+                "title": "SUFIA: Push Code to Sufia"
+            },
+            {
+                "command": "sufia.pullCodefromSufia",
+                "title": "SUFIA: Pull Code from Sufia"
+            },
+            {
+                "command": "sufia.pullExistingCodefromSufia",
+                "title": "SUFIA: Pull Code from Sufia (Existing)"
+            }
+        ],
+        "viewsContainers": {
+            "activitybar": [
+                {
+                    "id": "sufia",
+                    "title": "Sufia",
+                    "icon": "media/WebGeaz.svg"
+                }
+            ]
+        },
+        "views": {
+            "sufia": [
+                {
+                    "id": "sufiaCommands",
+                    "name": "Sufia Commands"
+                }
+            ]
+        },
+        "view/title": [
+            {
+                "command": "sufia.setUser",
+                "when": "view == sufiaCommands",
+                "group": "navigation"
+            },
+            {
+                "command": "sufia.pullAll",
+                "when": "view == sufiaCommands",
+                "group": "navigation"
+            },
+            {
+                "command": "sufia.pushCodetoSufia",
+                "when": "view == sufiaCommands",
+                "group": "navigation"
+            },
+            {
+                "command": "sufia.pullCodefromSufia",
+                "when": "view == sufiaCommands",
+                "group": "navigation"
+            },
+            {
+                "command": "sufia.pullExistingCodefromSufia",
+                "when": "view == sufiaCommands",
+                "group": "navigation"
+            }
+        ]
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run package",
+        "compile": "webpack",
+        "watch": "webpack --watch",
+        "package": "webpack --mode production --devtool hidden-source-map",
+        "compile-tests": "tsc -p . --outDir out",
+        "watch-tests": "tsc -p . -w --outDir out",
+        "pretest": "npm run compile-tests && npm run compile && npm run lint",
+        "lint": "eslint src --ext ts",
+        "test": "vscode-test"
+    },
+    "devDependencies": {
+        "@types/mocha": "^10.0.7",
+        "@types/node": "20.x",
+        "@types/vscode": "^1.92.0",
+        "@typescript-eslint/eslint-plugin": "^7.14.1",
+        "@typescript-eslint/parser": "^7.11.0",
+        "@vscode/test-cli": "^0.0.9",
+        "@vscode/test-electron": "^2.4.0",
+        "eslint": "^8.57.0",
+        "ts-loader": "^9.5.1",
+        "typescript": "^5.4.5",
+        "webpack": "^5.92.1",
+        "webpack-cli": "^5.1.4"
+    },
+    "dependencies": {
+        "sufia-client": "file:"
+    }
+}

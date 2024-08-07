@@ -4,7 +4,7 @@
     "description": "Client in sufia for pull, push, and connect",
     "icon": "media/WebGeaz.png",
     "publisher": "WebgeazSdnBhd",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "engines": {
         "vscode": "^1.92.0"
     },

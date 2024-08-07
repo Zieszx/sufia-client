@@ -214,7 +214,7 @@ class SufiaCommandsProvider implements vscode.TreeDataProvider<SufiaCommandItem>
             new SufiaCommandItem('Push Code to Sufia', 'sufia.pushCodetoSufia', 'cloud-upload'),
             new SufiaCommandItem('Pull Code from Sufia', 'sufia.pullCodefromSufia', 'cloud-download'),
             new SufiaCommandItem('Pull Existing Code from Sufia', 'sufia.pullExistingCodefromSufia', 'file-code'),
-            new SufiaCommandItem('Push New Version', 'sufia.pushNewVersion', 'version')
+            new SufiaCommandItem('Push New Version', 'sufia.pushNewVersion', 'new-file')
         ];
     }
 }

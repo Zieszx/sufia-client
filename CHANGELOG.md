@@ -8,3 +8,7 @@ Initial realease for sufia client by Webgeaz Sdn Bhd
 ## [1.0.1]
 
 - Fixing push commands
+
+## [1.0.2]
+
+- Extension logo

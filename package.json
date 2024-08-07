@@ -2,6 +2,7 @@
     "name": "sufia-client",
     "displayName": "Sufia Client",
     "description": "Client in sufia for pull, push, and connect",
+    "icon": "media/WebGeaz.png",
     "publisher": "WebgeazSdnBhd",
     "version": "1.0.1",
     "engines": {
@@ -120,5 +121,8 @@
         "typescript": "^5.4.5",
         "webpack": "^5.92.1",
         "webpack-cli": "^5.1.4"
+    },
+    "dependencies": {
+        "sufia-client": "file:"
     }
 }

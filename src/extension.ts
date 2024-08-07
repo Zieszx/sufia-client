@@ -1,6 +1,8 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 
+// 
+
 /**
  * Activates the extension.
  * @param context - The extension context.
@@ -94,12 +96,25 @@ export function activate(context: vscode.ExtensionContext) {
         pullExistingCodefromSufia(filePath);
     });
 
+    const pushNewVersionDisposable = vscode.commands.registerCommand('sufia.pushNewVersion', async () => {
+        const editor = vscode.window.activeTextEditor;
+        if (!editor) {
+            vscode.window.showErrorMessage('No active editor found!');
+            return;
+        }
+
+        const document = editor.document;
+        const content = document.getText();
+        pushNewVersion(content);
+    });
+
     context.subscriptions.push(
         setUserDisposable,
         pullAllDisposable,
         pushCodeToServerDisposable,
         pullCodeFromSufiaDisposable,
-        pullExistingCodeDisposable
+        pullExistingCodeDisposable,
+        pushNewVersionDisposable
     );
 
     // Register the tree data providers
@@ -113,7 +128,7 @@ async function setUser(urlString: string, username: string) {
     terminal.show();
 }
 
-function pushCodeToServer(content: string) {
+async function pushCodeToServer(content: string) {
     const editor = vscode.window.activeTextEditor;
     if (!editor) {
         vscode.window.showErrorMessage('No active editor found.');
@@ -121,20 +136,37 @@ function pushCodeToServer(content: string) {
     }
     const filePath = editor.document.uri.fsPath;
 
-    const groupCode = path.basename(path.dirname(filePath));
-    const transactionCode = path.basename(path.dirname(path.dirname(filePath)));
+    const transactionCode = path.basename(path.dirname(filePath));
+    const groupCode = path.basename(path.dirname(path.dirname(filePath)));
 
-    const terminal = vscode.window.terminals.find(t => t.name === 'Sufia Terminal');
-    if (terminal) {
-        terminal.sendText(`sufia push -g ${groupCode} -c ${transactionCode}`);
-        terminal.show();
-    } else {
-        const newTerminal = vscode.window.createTerminal('Sufia Terminal');
-        newTerminal.sendText(`sufia push -g ${groupCode} -c ${transactionCode}`);
-        newTerminal.show();
+    const versionPush = await vscode.window.showInputBox({
+        prompt: 'Enter the version to push',
+        placeHolder: 'Edit, if no new version is required, put "none"'
+    });
+
+    if(versionPush === "none"){
+        const terminal = vscode.window.terminals.find(t => t.name === 'Sufia Terminal');
+        if (terminal) {
+            terminal.sendText(`sufia push -g ${groupCode} -c ${transactionCode}`);
+            terminal.show();
+        } else {
+            const newTerminal = vscode.window.createTerminal('Sufia Terminal');
+            newTerminal.sendText(`sufia push -g ${groupCode} -c ${transactionCode}`);
+            newTerminal.show();
+        }
+    }else{
+        const terminal = vscode.window.terminals.find(t => t.name === 'Sufia Terminal');
+        if (terminal) {
+            terminal.sendText(`sufia push -g ${groupCode} -c ${transactionCode} -v ${versionPush}`);
+            terminal.show();
+        } else {
+            const newTerminal = vscode.window.createTerminal('Sufia Terminal');
+            newTerminal.sendText(`sufia push -g ${groupCode} -c ${transactionCode} -v ${versionPush}`);
+            newTerminal.show();
+        }
     }
-
     vscode.window.showInformationMessage('Code pushed to server successfully');
+
 }
 
 function pullCodeFromSufia(groupCode: string, transactionCode: string) {
@@ -181,7 +213,8 @@ class SufiaCommandsProvider implements vscode.TreeDataProvider<SufiaCommandItem>
             new SufiaCommandItem('Pull All', 'sufia.pullAll', 'sync'),
             new SufiaCommandItem('Push Code to Sufia', 'sufia.pushCodetoSufia', 'cloud-upload'),
             new SufiaCommandItem('Pull Code from Sufia', 'sufia.pullCodefromSufia', 'cloud-download'),
-            new SufiaCommandItem('Pull Existing Code from Sufia', 'sufia.pullExistingCodefromSufia', 'file-code')
+            new SufiaCommandItem('Pull Existing Code from Sufia', 'sufia.pullExistingCodefromSufia', 'file-code'),
+            new SufiaCommandItem('Push New Version', 'sufia.pushNewVersion', 'version')
         ];
     }
 }
@@ -200,5 +233,42 @@ class SufiaCommandItem extends vscode.TreeItem {
         };
     }
 }
+async function pushNewVersion(content: string) {
+    const editor = vscode.window.activeTextEditor;
+    if (!editor) {
+        vscode.window.showErrorMessage('No active editor found!');
+        return;
+    }
+
+    const document = editor.document;
+    const filePath = document.uri.fsPath;
+
+    const transactionCode = path.basename(path.dirname(filePath));
+    const groupCode = path.basename(path.dirname(path.dirname(filePath)));
+
+    const versionPush = await vscode.window.showInputBox({
+        prompt: 'Enter the version to push',
+        placeHolder: 'eg: Edit, Update, etc.'
+    });
+
+    if(!versionPush){
+        vscode.window.showErrorMessage('Version input was cancelled or empty.');
+        return;
+    }
+
+    const terminal = vscode.window.terminals.find(t => t.name === 'Sufia Terminal');
+    if (terminal) {
+        terminal.sendText(`sufia push -g ${groupCode} -c ${transactionCode} -v ${versionPush}`);
+        terminal.show();
+    } else {
+        const newTerminal = vscode.window.createTerminal('Sufia Terminal');
+        newTerminal.sendText(`sufia push -g ${groupCode} -c ${transactionCode} -v ${versionPush}`);
+        newTerminal.show();
+    }
+
+    vscode.window.showInformationMessage('Code pushed to server successfully');
+}
+
 
 export function deactivate() {}
+

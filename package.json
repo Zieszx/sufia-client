@@ -2,6 +2,7 @@
     "name": "sufia-client",
     "displayName": "Sufia Client",
     "description": "Client in sufia for pull, push, and connect",
+    "publisher": "WebgeazSdnBhd",
     "version": "1.0.0",
     "engines": {
         "vscode": "^1.92.0"
@@ -10,20 +11,16 @@
         "Other"
     ],
     "activationEvents": [
-        "onCommand:sufia.pushToServer",
         "onCommand:sufia.setUser",
         "onCommand:sufia.pullAll",
         "onCommand:sufia.pushCodetoSufia",
         "onCommand:sufia.pullCodefromSufia",
-        "onCommand:sufia.pullExistingCodefromSufia"
+        "onCommand:sufia.pullExistingCodefromSufia",
+        "onCommand:sufia.pushCodetoSufianewVersion"
     ],
     "main": "./dist/extension.js",
     "contributes": {
         "commands": [
-            {
-                "command": "sufia.pushToServer",
-                "title": "SUFIA: Push to Server (Git Push)"
-            },
             {
                 "command": "sufia.setUser",
                 "title": "SUFIA: Set User"
@@ -43,6 +40,10 @@
             {
                 "command": "sufia.pullExistingCodefromSufia",
                 "title": "SUFIA: Pull Code from Sufia (Existing)"
+            },
+            {
+                "command": "sufia.pushCodetoSufianewVersion",
+                "title": "SUFIA: Push Code to Sufia(New version)"
             }
         ],
         "viewsContainers": {
@@ -50,7 +51,7 @@
                 {
                     "id": "sufia",
                     "title": "Sufia",
-                    "icon": "media/WebGeaz.svg"
+                    "icon": "media/WebGeaz.png"
                 }
             ]
         },
@@ -87,6 +88,11 @@
                 "command": "sufia.pullExistingCodefromSufia",
                 "when": "view == sufiaCommands",
                 "group": "navigation"
+            },
+            {
+                "command": "sufia.pushCodetoSufianewVersion",
+                "when": "view == sufiaCommands",
+                "group": "navigation"
             }
         ]
     },
@@ -114,8 +120,5 @@
         "typescript": "^5.4.5",
         "webpack": "^5.92.1",
         "webpack-cli": "^5.1.4"
-    },
-    "dependencies": {
-        "sufia-client": "file:"
     }
 }

@@ -66,15 +66,3 @@ The **Sufia Client** VS Code extension provides a set of commands for managing i
    - Open the Command Palette with `Ctrl+Shift+P`.
    - Type `SUFIA: Pull Existing Code from Sufia` and press Enter.
 
-## Contribution
-
-Feel free to contribute to this project by submitting issues or pull requests. For more information, please refer to the [contributing guidelines](CONTRIBUTING.md).
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).
-
-## Support
-
-For support, please open an issue on the [GitHub repository](https://github.com/your-repo/sufia-client).
-
